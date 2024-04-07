@@ -22,7 +22,6 @@
 // Distance constants
 #define CLOSE 20
 #define NORMAL 30
-#define FAR 100
 
 //Gripper pin
 #define GRIP 9
@@ -92,6 +91,7 @@ void setup() {
     pinMode(sensorPins[i], INPUT);
   }
 //  Serial.println("hello"); //make when do the line sensors testing easier to read number
+
   attachInterrupt(digitalPinToInterrupt(MOT_R1), ISR_R, CHANGE);
   attachInterrupt(digitalPinToInterrupt(MOT_R2), ISR_L, CHANGE);
 }
@@ -102,7 +102,7 @@ void loop() {
     started = true;
   }
 
- //checking the line sensors
+ //checking the hardware line sensors
 // read();
 //  Serial.print(sensor_A0);
 //   Serial.print(" ");
@@ -243,11 +243,11 @@ void end() {
   ungrab();
   goBack(30);
   while (true) {
-    setPixlsRed();
+    setPixlsPurple();
     delay(200);
-    setPixlsYellow();
+    setPixlsNeonYellow();
     delay(200);
-    setPixlsGreen();
+    setPixlsDarkGreen();
     delay(200);
   }
   ended = true;
@@ -369,7 +369,7 @@ void ungrab() {
 
 //Movement
 void goStraight() {
-  setPixlsGreen();
+  setPixlsDarkGreen();
   analogWrite(MOT_A2, MOTOR_A_SPEED);
   analogWrite(MOT_B2, MOTOR_B_SPEED);
   analogWrite(MOT_A1, LOW);
@@ -377,7 +377,7 @@ void goStraight() {
 }
 
 void goStraightSlow() {
-  setPixlsGreen();
+  setPixlsDarkGreen();
   analogWrite(MOT_A2, MOTOR_A_SLOW_SPEED);
   analogWrite(MOT_B2, MOTOR_B_SLOW_SPEED);
   analogWrite(MOT_A1, LOW);
@@ -385,7 +385,7 @@ void goStraightSlow() {
 }
 
 void goStraight(int d) {
-  setPixlsGreen();
+  setPixlsDarkGreen();
   countL = 0;
   countR = 0;
 
@@ -399,7 +399,7 @@ void goStraight(int d) {
 }
 
 void goBack(int d) {
-  setPixlsGreen();
+  setPixlsDarkGreen();
   countL = 0;
   countR = 0;
 
@@ -442,7 +442,7 @@ void smallTurnRight(int speed) {
 
 
 void turnLeft(int d) {
-  setPixlsYellow();
+  setPixlsNeonYellow();
   countL = 0;
   countR = 0;
 
@@ -456,7 +456,7 @@ void turnLeft(int d) {
 }
 
 void turnRight(int d) {
-  setPixlsYellow();
+  setPixlsNeonYellow();
   countL = 0;
   countR = 0;
 
@@ -470,7 +470,7 @@ void turnRight(int d) {
 }
 
 void turnRightUltra() {
-  setPixlsRed();
+  setPixlsPurple();
   fullTurnRight();
   while (true) {
     read();
@@ -523,38 +523,38 @@ void activationWait() {
   pixels.setPixelColor(3, pixels.Color(BRIGHTNES_LEVEL, 0, 0));
   pixels.show();
   delay(1000);
-  setPixlsGreen();
+  setPixlsDarkGreen();
 }
 
 //Lights
-void setPixlsRed() {
-  pixels.setPixelColor(0, pixels.Color(0, BRIGHTNES_LEVEL, 0));
-  pixels.setPixelColor(1, pixels.Color(0, BRIGHTNES_LEVEL, 0));
-  pixels.setPixelColor(2, pixels.Color(0, BRIGHTNES_LEVEL, 0));
-  pixels.setPixelColor(3, pixels.Color(0, BRIGHTNES_LEVEL, 0));
+void setPixlsPurple() {
+  pixels.setPixelColor(0, pixels.Color(BRIGHTNES_LEVEL, 0, BRIGHTNES_LEVEL));  
+  pixels.setPixelColor(1, pixels.Color(BRIGHTNES_LEVEL, 0, BRIGHTNES_LEVEL));  
+  pixels.setPixelColor(2, pixels.Color(BRIGHTNES_LEVEL, 0, BRIGHTNES_LEVEL));  
+  pixels.setPixelColor(3, pixels.Color(BRIGHTNES_LEVEL, 0, BRIGHTNES_LEVEL));  
   pixels.show();
 }
 
-void setPixlsGreen() {
-  pixels.setPixelColor(0, pixels.Color(BRIGHTNES_LEVEL, 0, 0));
-  pixels.setPixelColor(1, pixels.Color(BRIGHTNES_LEVEL, 0, 0));
-  pixels.setPixelColor(2, pixels.Color(BRIGHTNES_LEVEL, 0, 0));
-  pixels.setPixelColor(3, pixels.Color(BRIGHTNES_LEVEL, 0, 0));
+void setPixlsNeonYellow() {
+  pixels.setPixelColor(0, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));  
+  pixels.setPixelColor(1, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));  
+  pixels.setPixelColor(2, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));  
+  pixels.setPixelColor(3, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));  
   pixels.show();
 }
 
-void setPixlsYellow() {
-  pixels.setPixelColor(0, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));
-  pixels.setPixelColor(1, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));
-  pixels.setPixelColor(2, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));
-  pixels.setPixelColor(3, pixels.Color(BRIGHTNES_LEVEL, BRIGHTNES_LEVEL, 0));
+void setPixlsDarkGreen() {
+  pixels.setPixelColor(0, pixels.Color(0, BRIGHTNES_LEVEL, 0));  
+  pixels.setPixelColor(1, pixels.Color(0, BRIGHTNES_LEVEL, 0));  
+  pixels.setPixelColor(2, pixels.Color(0, BRIGHTNES_LEVEL, 0));  
+  pixels.setPixelColor(3, pixels.Color(0, BRIGHTNES_LEVEL, 0));  
   pixels.show();
 }
 
-void setPixlsBlue() {
-  pixels.setPixelColor(0, pixels.Color(0, 0, BRIGHTNES_LEVEL));
-  pixels.setPixelColor(1, pixels.Color(0, 0, BRIGHTNES_LEVEL));
-  pixels.setPixelColor(2, pixels.Color(0, 0, BRIGHTNES_LEVEL));
-  pixels.setPixelColor(3, pixels.Color(0, 0, BRIGHTNES_LEVEL));
+void setPixlsLightBlue() {
+  pixels.setPixelColor(0, pixels.Color(0, 0, BRIGHTNES_LEVEL)); 
+  pixels.setPixelColor(1, pixels.Color(0, 0, BRIGHTNES_LEVEL));  
+  pixels.setPixelColor(2, pixels.Color(0, 0, BRIGHTNES_LEVEL)); 
+  pixels.setPixelColor(3, pixels.Color(0, 0, BRIGHTNES_LEVEL));  
   pixels.show();
 }
